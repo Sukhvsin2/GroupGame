@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Group Game</title>
+  </head>
+  <body>
+    <div class="listUser"></div>
+
+    <script>
+      let socket = new WebSocket("ws://127.0.0.1:8000/ws/game/sukh/123/");
+
+      socket.onopen = function (e) {
+        console.log("html Connect");
+        socket.send(JSON.stringify({ name: "Sukhvinder" }));
+      };
+      socket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        console.log(data);
+        let div = document.querySelector(".listUser");
+        let li = document.createElement("li");
+        let nUser = document.createTextNode(data.users);
+        li.appendChild(nUser);
+        div.appendChild(li);
+      };
+
+      socket.onclose = function (e) {
+        console.log("html Disconnect");
+      };
+    </script>
+  </body>
+</html>
